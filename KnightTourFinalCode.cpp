@@ -175,7 +175,7 @@ void Knight_tour::start_game()
 
 void Knight_tour::end_game()
 {
-    cout << "WAIT WAIT ,to view the solution for your board size press 's' or press any other key to end game.\n\n";
+    cout << "\nWAIT WAIT ,to view the solution for your board size press 's' or press any other key to end game.\n\n";
     char ch;
     ch = _getch();
     if (ch == 's' || ch == 'S')
