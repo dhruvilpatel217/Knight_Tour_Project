@@ -4,37 +4,61 @@
 #include "KnightTourPlayGame.h"
 using namespace std;
 
-void setColor(int color)
-{
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-}
-
-int N;
+int N; // board size
 int dr[8] = {2, 1, -1, -2, -2, -1, 1, 2};
 int dc[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
 vector<vector<string>> grid;
 
+// Sets the text color using ANSI escape codes (cross-platform)
+void setColor(int color)
+{
+    switch (color)
+    {
+    case 0:  cout << "\033[30m"; break; // Black
+    case 1:  cout << "\033[34m"; break; // Blue
+    case 2:  cout << "\033[32m"; break; // Green
+    case 3:  cout << "\033[36m"; break; // Aqua / Cyan
+    case 4:  cout << "\033[31m"; break; // Red
+    case 5:  cout << "\033[35m"; break; // Purple / Magenta
+    case 6:  cout << "\033[33m"; break; // Yellow (Dark Yellow)
+    case 7:  cout << "\033[37m"; break; // Light Gray
+    case 8:  cout << "\033[90m"; break; // Dark Gray
+    case 9:  cout << "\033[94m"; break; // Light Blue
+    case 10: cout << "\033[92m"; break; // Light Green
+    case 11: cout << "\033[96m"; break; // Light Cyan
+    case 12: cout << "\033[91m"; break; // Light Red
+    case 13: cout << "\033[95m"; break; // Light Magenta
+    case 14: cout << "\033[93m"; break; // Light Yellow
+    case 15: cout << "\033[97m"; break; // White (Bright)
+    case 240: cout << "\033[30;47m"; break; // Black text on White background (used for current cell)
+    default: cout << "\033[0m"; break; // Reset to default
+    }
+}
+
+// Checks if the given cell is within the bounds of the board
 bool Valid(int row, int col)
 {
     return (row >= 0 && col >= 0 && row < N && col < N);
 }
 
+// Enables ANSI escape codes for formatting in the Windows terminal
 void enableANSI()
 {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwMode = 0;
     GetConsoleMode(hOut, &dwMode);
-    dwMode |= 0x0004; // ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    dwMode |= 0x0004;
     SetConsoleMode(hOut, dwMode);
 }
 
-// moves cursor to position row and col of terminal(console) +1 add since terminal is 1-based indexed
+// Moves the terminal cursor to a specific row and column
 void moveCursor(int row, int col)
 {
     cout << "\033[" << (row + 1) << ";" << (col + 1) << "H";
 }
 
+// Prints the keyboard instructions for knight moves
 void printKnightMoveInstructions()
 {
     cout << "Knight Move Instructions (Each move is in an 'L' shape):\n";
@@ -45,9 +69,11 @@ void printKnightMoveInstructions()
     cout << "X: Moves 2 units DOWN, then 1 unit LEFT\n";
     cout << "Z: Moves 2 units LEFT, then 1 unit DOWN\n";
     cout << "A: Moves 2 units LEFT, then 1 unit UP\n";
-    cout << "S: Moves 2 units UP, then 1 unit LEFT\n\n";
+    cout << "S: Moves 2 units UP, then 1 unit LEFT\n";
+    cout << "NOTE : Press 'q' to quit the game.\n\n";
 }
 
+// Draws the game board with the knight's current position
 void drawGrid(int cursorRow, int cursorCol, int &cur_move)
 {
     moveCursor(0, 0);
@@ -87,8 +113,7 @@ void drawGrid(int cursorRow, int cursorCol, int &cur_move)
                 else
                     padded = " " + tmp;
 
-                setColor(240);
-                cout << padded;
+                cout << "\033[30;47m" << padded << "\033[0m";
                 setColor(10);
                 cout << "|";
             }
@@ -123,6 +148,7 @@ void drawGrid(int cursorRow, int cursorCol, int &cur_move)
     cur_move++;
 }
 
+// Prints the final solution path if the user requests it
 void print_solution(int st_row, int st_col, vector<vector<int>> ans)
 {
     setColor(10);
@@ -166,6 +192,7 @@ void print_solution(int st_row, int st_col, vector<vector<int>> ans)
     setColor(7);
 }
 
+// Checks whether the knight has no further valid moves
 bool Caught(int row, int col)
 {
     int cnt = 0;
@@ -181,12 +208,15 @@ bool Caught(int row, int col)
     return (cnt == 0);
 }
 
-void clearLine(int row) {
+// Clears a specified line from the console screen
+void clearLine(int row)
+{
     moveCursor(row, 0);
-    cout << string(300, ' '); 
-    moveCursor(row, 0);       
+    cout << string(300, ' ');
+    moveCursor(row, 0);
 }
 
+// Checks if a cell is already visited and handles the error state
 bool Occupy(int row, int col, int &flag, int &count_lines)
 {
     if (grid[row][col] == " ")
@@ -196,7 +226,7 @@ bool Occupy(int row, int col, int &flag, int &count_lines)
     else
     {
         setColor(12);
-        clearLine(2*N + 13);
+        clearLine(2 * N + 13);
         cout << "Knight already placed at that cell..\n";
         cout << "Please select different move.\n";
         setColor(7);
@@ -206,6 +236,7 @@ bool Occupy(int row, int col, int &flag, int &count_lines)
     }
 }
 
+// Main function to handle the knight tour gameplay and logic
 void play_game_KnightTour(int si, int start_row, int start_col)
 {
     N = si;
@@ -256,13 +287,13 @@ void play_game_KnightTour(int si, int start_row, int start_col)
             setColor(12);
             if (key == 'w' || key == 'W' || key == 'e' || key == 'E' || key == 'd' || key == 'D' || key == 'c' || key == 'C' || key == 'x' || key == 'X' || key == 'z' || key == 'Z' || key == 'a' || key == 'A' || key == 's' || key == 'S')
             {
-                clearLine(2*N + 13);
+                clearLine(2 * N + 13);
                 cout << "Your move leads you to out of board.\n";
                 cout << "Please press correct key.\n";
             }
             else
             {
-                clearLine(2*N + 13);
+                clearLine(2 * N + 13);
                 cout << "INVALID key press!\n";
                 cout << "Please press correct key.\n";
             }
@@ -275,13 +306,13 @@ void play_game_KnightTour(int si, int start_row, int start_col)
         if (flag == 1)
             continue;
 
-        clearLine(2*N + 13);
+        clearLine(2 * N + 13);
         drawGrid(row, col, cur);
 
         if (cur == N * N + 1)
         {
             setColor(13);
-            clearLine(2*N + 13);
+            clearLine(2 * N + 13);
             cout << "\nCONGRATULATIONS YOU HAVE COMPLETED THE GAME!!\n\n";
             setColor(7);
             count_lines++;
@@ -292,7 +323,7 @@ void play_game_KnightTour(int si, int start_row, int start_col)
         if (Caught(row, col))
         {
             setColor(12);
-            clearLine(2*N + 13);
+            clearLine(2 * N + 13);
             cout << "Sorry you lost the game....\n";
             cout << "Your knight does not have any move present.\n";
             setColor(7);
@@ -300,7 +331,6 @@ void play_game_KnightTour(int si, int start_row, int start_col)
             flag = 2;
             break;
         }
-
     }
 
     moveCursor(2 * N + 16, 0);
