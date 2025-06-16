@@ -35,12 +35,12 @@ The goal is to simulate and play the classic **Knight’s Tour** problem, allowi
 
 ```
 KnightTourGame/
-├── KnightTourFinalCode(main).cpp     # Entry point: handles design, rules, and game lifecycle
-├── knight_tour_helper.cpp            # Implements Warnsdorff’s heuristic and precomputes valid paths
-├── knight_tour_helper.h              # Declares helper functions and global variables
-├── KnightTourPlayGame.cpp            # Manages interactive gameplay, movement, and board drawing
-├── KnightTourPlayGame.h              # Exposes play and print functions for the game
-└── README.md                         # Project overview and instructions (this file)
+├── KnightTourFinalCode.cpp(main.cpp)   # Entry point: handles design, rules, and game lifecycle
+├── knight_tour_helper.cpp              # Implements Warnsdorff’s heuristic and precomputes valid paths
+├── knight_tour_helper.h                # Declares helper functions and global variables
+├── KnightTourPlayGame.cpp              # Manages interactive gameplay, movement, and board drawing
+├── KnightTourPlayGame.h                # Exposes play and print functions for the game
+└── README.md                           # Project overview and instructions (this file)
 ```
 ---
 
@@ -63,7 +63,7 @@ cd KnightTourGame
 ```
 ### 2. Compile the Code
 ```
-g++ main.cpp knight_tour_helper.cpp KnightTourPlayGame.cpp -o knighttour
+g++ KnightTourFinalCode.cpp knight_tour_helper.cpp KnightTourPlayGame.cpp -o knighttour
 ```
 ### 3. Run the Game
 ```
