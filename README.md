@@ -54,6 +54,20 @@ KnightTourGame/
 
 ---
 
+## 📽️ Demo Video
+
+Watch a full walkthrough of the Knight's Tour game in action:
+
+🔗 [Click here to watch the demo](https://drive.google.com/file/d/166QMHrYiocvnZDt82Bs2lLQZ1TDGvGv4/view?usp=sharing)
+
+🎮 The video showcases:  
+ - Game startup and rules  
+ - Selecting board size  
+ - Making knight moves  
+ - Win/loss detection and solution display
+
+---
+
 ## 📥 Getting Started
 
 ### 1. Clone the Repository
