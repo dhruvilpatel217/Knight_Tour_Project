@@ -211,7 +211,7 @@ bool Caught(int row, int col)
 // Clears a specified line from the console screen
 void clearLine(int row)
 {
-    moveCursor(row, 0);
+    moveCursor(row+2, 0);
     cout << string(300, ' ');
     moveCursor(row, 0);
 }
@@ -226,8 +226,8 @@ bool Occupy(int row, int col, int &flag, int &count_lines)
     else
     {
         setColor(12);
-        clearLine(2 * N + 13);
-        cout << "Knight already placed at that cell..\n";
+        clearLine(2 * N + 14);
+        cout << "\nKnight already placed at that cell..\n";
         cout << "Please select different move.\n";
         setColor(7);
         count_lines += 2;
@@ -287,14 +287,14 @@ void play_game_KnightTour(int si, int start_row, int start_col)
             setColor(12);
             if (key == 'w' || key == 'W' || key == 'e' || key == 'E' || key == 'd' || key == 'D' || key == 'c' || key == 'C' || key == 'x' || key == 'X' || key == 'z' || key == 'Z' || key == 'a' || key == 'A' || key == 's' || key == 'S')
             {
-                clearLine(2 * N + 13);
-                cout << "Your move leads you to out of board.\n";
+                clearLine(2 * N + 14);
+                cout << "\nYour move leads you to out of board.\n";
                 cout << "Please press correct key.\n";
             }
             else
             {
-                clearLine(2 * N + 13);
-                cout << "INVALID key press!\n";
+                clearLine(2 * N + 14);
+                cout << "\nINVALID key press!\n";
                 cout << "Please press correct key.\n";
             }
             setColor(7);
@@ -312,7 +312,7 @@ void play_game_KnightTour(int si, int start_row, int start_col)
         if (cur == N * N + 1)
         {
             setColor(13);
-            clearLine(2 * N + 13);
+            clearLine(2 * N + 14);
             cout << "\nCONGRATULATIONS YOU HAVE COMPLETED THE GAME!!\n\n";
             setColor(7);
             count_lines++;
@@ -323,8 +323,8 @@ void play_game_KnightTour(int si, int start_row, int start_col)
         if (Caught(row, col))
         {
             setColor(12);
-            clearLine(2 * N + 13);
-            cout << "Sorry you lost the game....\n";
+            clearLine(2 * N + 14);
+            cout << "\nSorry you lost the game....\n";
             cout << "Your knight does not have any move present.\n";
             setColor(7);
             count_lines += 2;
@@ -333,5 +333,5 @@ void play_game_KnightTour(int si, int start_row, int start_col)
         }
     }
 
-    moveCursor(2 * N + 16, 0);
+    moveCursor(2 * N + 17, 0);
 }
